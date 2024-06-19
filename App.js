@@ -17,6 +17,9 @@ import * as Font from 'expo-font';
 import  {  ReactNativeZoomableView  }  from  '@openspacelabs/react-native-zoomable-view' ;
 import { TabView,TabBar,} from 'react-native-tab-view';
 
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
 async function loadFonts() {
   await Font.loadAsync({
     'HakgyoansimBareonbatangB': require('./assets/fonts/HakgyoansimBareonbatangB.ttf'),
@@ -391,6 +394,7 @@ useEffect(() => {
   </TouchableOpacity>
   <TextInput
     style={styles.searchInput}
+    allowFontScaling={false}
     placeholder="장, 제목, 가사로 검색"
     value={searchQuery}
     onChangeText={setSearchQuery}
@@ -460,7 +464,7 @@ useEffect(() => {
 };
 
 const { width, height } = Dimensions.get('window');
-setY = height * 0.41
+setY = height * 0.37
 
 const ImageDetailScreen = ({ route,navigation }) => {
   const { imageName } = route.params;
@@ -778,7 +782,7 @@ const renderScene = ({ route }) => {
           zoomStep={4} // 줌 단계
           initialZoom={images.length > 1 ? 1: 1} // 초기 줌 배율
           bindToBorders={true}
-          contentHeight={images.length > 1 ? height*2.45 : undefined}
+          contentHeight={images.length > 1 ? height*2.2 : undefined}
           initialOffsetY={images.length > 1 ? setY: 1}
             >
           {images.map((image, index) => (
@@ -786,7 +790,7 @@ const renderScene = ({ route }) => {
           ))}
           </ReactNativeZoomableView>
           
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.857 : -height*0.026}}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.694 : -height*0.014}}>
          
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',marginLeft:25 ,bottom:5}}>
       <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
@@ -1177,7 +1181,7 @@ useFocusEffect(
           zoomStep={4} // 줌 단계
           initialZoom={images.length > 1 ? 1: 1} // 초기 줌 배율
           bindToBorders={true}
-          contentHeight={images.length > 1 ? height*2.45 : undefined}
+          contentHeight={images.length > 1 ? height*2.2 : undefined}
           initialOffsetY={images.length > 1 ? setY: 1}
               
               
@@ -1187,7 +1191,7 @@ useFocusEffect(
           ))}
           </ReactNativeZoomableView>
           
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.857 : -height*0.026}}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.694 : -height*0.014}}>
          
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',marginLeft:25 ,bottom:5}}>
       <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
