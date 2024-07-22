@@ -18,7 +18,7 @@ import  {  ReactNativeZoomableView  }  from  '@openspacelabs/react-native-zoomab
 import { TabView,TabBar,} from 'react-native-tab-view';
 
 Text.defaultProps = Text.defaultProps || {};
-Text.defaultProps.allowFontScaling = false;
+Text.defaultProps.allowFontScaling = false; 
 
 async function loadFonts() {
   await Font.loadAsync({
@@ -464,7 +464,7 @@ useEffect(() => {
 };
 
 const { width, height } = Dimensions.get('window');
-setY = height * 0.37
+setY = height * 0.39
 
 const ImageDetailScreen = ({ route,navigation }) => {
   const { imageName } = route.params;
@@ -475,19 +475,6 @@ const ImageDetailScreen = ({ route,navigation }) => {
 
   const [fontSize, setFontSize] = useState(14.5); // 기본 폰트 크기를 20으로 설정
 
-  // 폰트 크기를 증가시키는 함수
-  const increaseFontSize = () => {
-    setFontSize(currentFontSize => currentFontSize + 2);
-  };
-
-  // 폰트 크기를 감소시키는 함수
-  const decreaseFontSize = () => {
-    setFontSize(currentFontSize => currentFontSize - 2);
-  };
-
-  
-
-  
 
 
   const [sound, setSound] = useState(null);
@@ -737,27 +724,12 @@ useEffect(() => {
 
 // 초기 탭 인덱스와 라우트 설정
 const [tabIndex, setTabIndex] = useState(route.params?.tabIndex || 0);
-const [routes] = useState([
-  { key: 'images', title: '악보' },
-  { key: 'lyrics', title: '가사' },
-]);
-
-
-
-const copyToClipboard = () => {
-  // 이미지 이름과 가사를 하나의 문자열로 결합
-  const lyricsText = `${imageName}\n\n${lyrics.join('\n')}`;
-  Clipboard.setString(lyricsText);
-  Alert.alert("복사됨", "가사가 복사 되었습니다."); // 사용자에게 알림
-};
 
 
 
 
-// renderScene을 직접 구현하여 SceneMap 대신 사용
-const renderScene = ({ route }) => {
-  switch (route.key) {
-    case 'images':
+
+
       return (
 
         <View >
@@ -782,7 +754,7 @@ const renderScene = ({ route }) => {
           zoomStep={4} // 줌 단계
           initialZoom={images.length > 1 ? 1: 1} // 초기 줌 배율
           bindToBorders={true}
-          contentHeight={images.length > 1 ? height*2.2 : undefined}
+          contentHeight={images.length > 1 ? height*2.3 : undefined}
           initialOffsetY={images.length > 1 ? setY: 1}
             >
           {images.map((image, index) => (
@@ -790,7 +762,7 @@ const renderScene = ({ route }) => {
           ))}
           </ReactNativeZoomableView>
           
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.694 : -height*0.014}}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.785 : -height*0.034}}>
          
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',marginLeft:25 ,bottom:5}}>
       <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
@@ -838,65 +810,7 @@ const renderScene = ({ route }) => {
       </View>
 
       );
-    case 'lyrics':
-      return (
-
-<View style={styles.container}>
-    <ScrollView 
-          showsHorizontalScrollIndicator={false} 
-          orizontal={false}
-          showsVerticalScrollIndicator={false}>
-      <Text style={[styles.text, { fontSize: fontSize + 5, fontWeight: 'bold' }]}>
-      {'\n'}{imageName}{'\n'}
-      </Text>
-      {lyrics.map((line, index) => (
-        <Text key={index} style={[styles.text, { fontSize }]}>
-          {line}
-          {'\n'}
-        </Text>
-      ))}
-    </ScrollView>
-    <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={increaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>확대</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={decreaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>축소</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={copyToClipboard} style={styles.button}>
-        <Text style={styles.buttonText}>복사</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-
-      );
-    default:
-      return null;
-  }
-};
-
-
-const renderTabBar = props => (
-  <TabBar
-    {...props}
-    style={{ backgroundColor: 'white'  }} // 예: 'red', '#f00', 등
-    indicatorStyle={{ backgroundColor: 'gray' }}
-    labelStyle={{ color: 'black' }}
-    activeColor="black"
-    inactiveColor="black"
-  />
-);
-
-return (
-  <TabView
-  navigationState={{ index: tabIndex, routes }}
-  renderScene={renderScene}
-  onIndexChange={setTabIndex}
-  initialLayout={{ width: '100%' }}
-  renderTabBar={renderTabBar}
-/>
-
-);
+   
 };
 
 
@@ -914,18 +828,7 @@ const ImageDetails_New = ({ route,navigation}) => {
 
    const [fontSize, setFontSize] = useState(14.5); // 기본 폰트 크기를 20으로 설정
 
-  // 폰트 크기를 증가시키는 함수
-  const increaseFontSize = () => {
-    setFontSize(currentFontSize => currentFontSize + 1);
-  };
 
-  // 폰트 크기를 감소시키는 함수
-  const decreaseFontSize = () => {
-    setFontSize(currentFontSize => currentFontSize - 1);
-  };
-
- 
-  
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackPosition, setPlaybackPosition] = useState(0);
@@ -1143,22 +1046,7 @@ useFocusEffect(
       // 초기 탭 인덱스와 라우트 설정
    const [tabIndex, setTabIndex] = useState(route.params?.tabIndex || 0);
    
-   const [routes] = useState([
-     { key: 'images', title: '악보' },
-     { key: 'lyrics', title: '가사' },
-   ]);
-    
-   const copyToClipboard = () => {
-    // 이미지 이름과 가사를 하나의 문자열로 결합
-    const lyricsText = `${imageName}\n\n${lyrics.join('\n')}`;
-    Clipboard.setString(lyricsText);
-    Alert.alert("복사됨", "가사가 복사 되었습니다."); // 사용자에게 알림
-  };
-
-    // renderScene을 직접 구현하여 SceneMap 대신 사용
-    const renderScene = ({ route }) => {
-      switch (route.key) {
-        case 'images':
+   
           return (
 
             <ScrollView
@@ -1181,7 +1069,7 @@ useFocusEffect(
           zoomStep={4} // 줌 단계
           initialZoom={images.length > 1 ? 1: 1} // 초기 줌 배율
           bindToBorders={true}
-          contentHeight={images.length > 1 ? height*2.2 : undefined}
+          contentHeight={images.length > 1 ? height*2.3 : undefined}
           initialOffsetY={images.length > 1 ? setY: 1}
               
               
@@ -1191,7 +1079,7 @@ useFocusEffect(
           ))}
           </ReactNativeZoomableView>
           
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.694 : -height*0.014}}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:images.length > 1 ? -height*0.785 : -height*0.034}}>
          
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',marginLeft:25 ,bottom:5}}>
       <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
@@ -1235,63 +1123,12 @@ useFocusEffect(
             </View>
             </ScrollView>
           );
-        case 'lyrics':
-          return (
-
-<View style={styles.container}>
-    <ScrollView showsHorizontalScrollIndicator={false} horizontal={false} 
-            showsVerticalScrollIndicator={false}>
-    <Text style={[styles.text, { fontSize: fontSize + 5, fontWeight: 'bold' }]}>
-      {'\n'}{imageName}{'\n'}
-      </Text>
-      {lyrics.map((line, index) => (
-        <Text key={index} style={[styles.text, { fontSize }]}>
-          {line}
-          {'\n'}
-        </Text>
-      ))}
-    </ScrollView>
-    <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={increaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>확대</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={decreaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>축소</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={copyToClipboard} style={styles.button}>
-        <Text style={styles.buttonText}>복사</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-
-          );
-        default:
-          return null;
+        
       }
-    };
     
 
-    const renderTabBar = props => (
-      <TabBar
-        {...props}
-        style={{ backgroundColor: 'white'  }} // 예: 'red', '#f00', 등
-        indicatorStyle={{ backgroundColor: 'gray' }}
-        labelStyle={{ color: 'black' }}
-        activeColor="black"
-        inactiveColor="black"
-      />
-    );
     
-    return (
-      <TabView // 탭 바의 배경 색상
-      navigationState={{ index: tabIndex, routes }}
-      renderScene={renderScene}
-      onIndexChange={setTabIndex} // 상태 업데이트 함수명도 변경
-      initialLayout={{ width: '100%' }}
-       renderTabBar={renderTabBar}
-    />
-    );
-    };
+    
     
    
 
